@@ -1,59 +1,129 @@
 'use client'
 import SectionTitle from "../components/SectionTitle";
-import { ArrowRightIcon, MailIcon, UserIcon } from "lucide-react";
+import { ArrowRightIcon, MailIcon, UserIcon, Send, MessageSquare } from "lucide-react";
 import { motion } from "motion/react";
 
 export default function ContactSection() {
     return (
-        <div className="px-4 md:px-16 lg:px-24 xl:px-32">
-            <SectionTitle text1="Contact" text2="Grow Your channel" text3="Have questions about our AI? Ready to scale your views? Lets talk." />
-            <form onSubmit={(e) => e.preventDefault()} className='grid sm:grid-cols-2 gap-3 sm:gap-5 max-w-2xl mx-auto text-slate-300 mt-16 w-full' >
-                <motion.div
+        <div id="contact" className="relative px-4 md:px-16 lg:px-24 xl:px-32 py-24 overflow-hidden">
+            {/* Background glowing elements */}
+            <div className="absolute top-0 right-1/4 w-[40rem] h-[40rem] bg-pink-600/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-0 left-1/4 w-[40rem] h-[40rem] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+            <SectionTitle text1="Contact" text2="Grow Your Channel" text3="Have questions about our AI? Ready to scale your views? Let's talk." />
+            
+            <div className="mt-16 grid lg:grid-cols-5 gap-10 max-w-6xl mx-auto relative z-10 text-white">
+                
+                {/* Left side: Contact Info */}
+                <motion.div 
                     initial={{ y: 150, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ type: "spring", stiffness: 320, damping: 70, mass: 1 }}
+                    className="lg:col-span-2 flex flex-col justify-center space-y-8"
                 >
-                    <p className='mb-2 font-medium'>Your name</p>
-                    <div className='flex items-center pl-3 rounded-lg border border-slate-700 focus-within:border-pink-500'>
-                        <UserIcon className='size-5' />
-                        <input name='name' type="text" placeholder='Enter your name' className='w-full p-3 outline-none' />
+                    <div className="text-center lg:text-left">
+                        <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60 mb-4">
+                            Let's build<br/>something amazing.
+                        </h3>
+                        <p className="text-zinc-400 text-base leading-relaxed">
+                            Whether you need help with your current plan, want to explore enterprise options, or just want to say hi, our team is ready to assist you.
+                        </p>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:border-pink-500/30 transition-colors group cursor-pointer">
+                            <div className="size-12 rounded-full bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
+                                <MailIcon className="size-5" />
+                            </div>
+                            <div className="text-left">
+                                <p className="text-sm text-zinc-400">Email Us</p>
+                                <p className="font-medium text-white/90">hello@thumblify.ai</p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:border-pink-500/30 transition-colors group cursor-pointer">
+                            <div className="size-12 rounded-full bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
+                                <MessageSquare className="size-5" />
+                            </div>
+                            <div className="text-left">
+                                <p className="text-sm text-zinc-400">Join Discord</p>
+                                <p className="font-medium text-white/90">Thumblify Community</p>
+                            </div>
+                        </div>
                     </div>
                 </motion.div>
 
+                {/* Right side: Contact Form */}
                 <motion.div
                     initial={{ y: 150, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 280, damping: 70, mass: 1 }}
+                    transition={{ delay: 0.1, type: "spring", stiffness: 280, damping: 70, mass: 1 }}
+                    className="lg:col-span-3"
                 >
-                    <p className='mb-2 font-medium'>Email id</p>
-                    <div className='flex items-center pl-3 rounded-lg border border-slate-700 focus-within:border-pink-500'>
-                        <MailIcon className='size-5' />
-                        <input name='email' type="email" placeholder='Enter your email' className='w-full p-3 outline-none' />
+                    <div className="bg-white/[0.02] border border-white/[0.08] backdrop-blur-2xl rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden group/card">
+                        
+                        {/* Subtle Shimmer effect inside card */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/5 via-transparent to-purple-500/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                        
+                        <form onSubmit={(e) => e.preventDefault()} className="relative z-10 flex flex-col gap-6">
+                            
+                            <div className="grid sm:grid-cols-2 gap-6">
+                                <div className="space-y-2 text-left">
+                                    <label className="text-sm font-medium text-zinc-300 ml-1">Your Name</label>
+                                    <div className="relative group/input">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-zinc-500 group-focus-within/input:text-pink-400 transition-colors">
+                                            <UserIcon className="size-5" />
+                                        </div>
+                                        <input 
+                                            name="name" 
+                                            type="text" 
+                                            placeholder="John Doe" 
+                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05]" 
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2 text-left">
+                                    <label className="text-sm font-medium text-zinc-300 ml-1">Email Address</label>
+                                    <div className="relative group/input">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-zinc-500 group-focus-within/input:text-pink-400 transition-colors">
+                                            <MailIcon className="size-5" />
+                                        </div>
+                                        <input 
+                                            name="email" 
+                                            type="email" 
+                                            placeholder="john@example.com" 
+                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05]" 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2 text-left">
+                                <label className="text-sm font-medium text-zinc-300 ml-1">Message</label>
+                                <textarea 
+                                    name="message" 
+                                    rows={5} 
+                                    placeholder="Tell us about your channel..." 
+                                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05] resize-none" 
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="relative mt-4 w-full sm:w-auto self-end overflow-hidden rounded-xl bg-pink-600 px-8 py-3.5 text-white font-medium transition-all hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-pink-500 flex items-center justify-center border border-pink-500/50 group/submit"
+                            >
+                                <span className="relative z-10 flex items-center gap-2">
+                                    Send Message
+                                    <Send className="size-4 transition-transform duration-300 group-hover/submit:translate-x-1 group-hover/submit:-translate-y-1" />
+                                </span>
+                            </button>
+                        </form>
                     </div>
                 </motion.div>
-
-                <motion.div className='sm:col-span-2'
-                    initial={{ y: 150, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 240, damping: 70, mass: 1 }}
-                >
-                    <p className='mb-2 font-medium'>Message</p>
-                    <textarea name='message' rows={8} placeholder='Enter your message' className='focus:border-pink-500 resize-none w-full p-3 outline-none rounded-lg border border-slate-700' />
-                </motion.div>
-
-                <motion.button type='submit' className='w-max flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-10 py-3 rounded-full'
-                    initial={{ y: 150, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 280, damping: 70, mass: 1 }}
-                >
-                    Submit
-                    <ArrowRightIcon className="size-5" />
-                </motion.button>
-            </form>
+            </div>
         </div>
     );
 }

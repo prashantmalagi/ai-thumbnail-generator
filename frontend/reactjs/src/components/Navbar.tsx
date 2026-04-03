@@ -24,8 +24,8 @@ export default function Navbar() {
 
                 <div className="hidden md:flex items-center gap-8 transition duration-500">
                     <Link to='/' className="hover:text-pink-300 transition">Home</Link>
-                    <Link to='/Generations' className="hover:text-pink-300 transition">Generations</Link>
-                    <Link to='/MyGenerations' className="hover:text-pink-300 transition">My Generations</Link>
+                    <Link to='/generate' className="hover:text-pink-300 transition">Generations</Link>
+                    <Link to='/my-generation' className="hover:text-pink-300 transition">My Generations</Link>
                     <Link to='/MyContact' className="hover:text-pink-300 transition">My Contact</Link>
 
                     
@@ -41,8 +41,8 @@ export default function Navbar() {
 
             <div className={`fixed inset-0 z-100 bg-black/40 backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-400 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
                 <Link onClick={() => setIsOpen(false)} to='/'>Home</Link>
-                <Link onClick={() => setIsOpen(false)} to='/Generations'>Generations</Link>
-                <Link onClick={() => setIsOpen(false)} to='/MyGenerations'>My Generations</Link>
+                <Link onClick={() => setIsOpen(false)} to='/generate'>Generations</Link>
+                <Link onClick={() => setIsOpen(false)} to='/my-generation'>My Generations</Link>
                 <Link onClick={() => setIsOpen(false)} to='/MyContact'>My Contact</Link>
                 <Link onClick={() => setIsOpen(false)} to='/login'>Login</Link>
                 <button onClick={() => setIsOpen(false)} className="active:ring-3 active:ring-white aspect-square size-10 p-1 items-center justify-center bg-pink-600 hover:bg-pink-700 transition text-white rounded-md flex">
