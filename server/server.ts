@@ -32,16 +32,24 @@ app.use(cors({
 }))
 
 
+const isProd = process.env.NODE_ENV === 'production';
+
 app.use(session({
     secret: process.env.SESSION_SECRET || "secret",
     resave: false,
     saveUninitialized: false,
-    cookie: {maxAge: 1000 * 60 * 60 * 24 * 7},
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7,  // 7 days
+        sameSite: isProd ? 'none' : 'lax', // 'none' required for cross-origin (Vercel ↔ Render)
+        secure: isProd,                    // HTTPS only in production
+        httpOnly: true,
+    },
     store: MongoStore.create({
         mongoUrl: process.env.MONGODB_URI as string,
         collectionName: "sessions",
     }),
 }))
+
 
 // Routes
 app.get("/", (req, res) => {
