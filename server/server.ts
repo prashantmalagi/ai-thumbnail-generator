@@ -1,4 +1,5 @@
 import express from "express";
+import fetch from "node-fetch";
 import cors from "cors";
 import 'dotenv/config'
 import connectDB from "./configs/db.js";
@@ -6,6 +7,8 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import authRoutes from './routes/authRoutes.js';
 import generateRoutes from './routes/generateRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
+
 
 declare module "express-session" {
     interface SessionData {
@@ -42,6 +45,8 @@ app.get("/", (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/generate', generateRoutes);
+app.use('/api/contact', contactRoutes);
+
 
 // Connect to DB then start server
 await connectDB();

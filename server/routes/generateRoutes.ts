@@ -1,12 +1,19 @@
-import { Router } from 'express';
-import { generateThumbnail, getMyGenerations, deleteGeneration } from '../controllers/GenerationController.js';
-import { isAuthenticated } from '../middlewares/authMiddleware.js';
+import express from "express";
+import {
+  generateThumbnail,
+  getMyGenerations,
+  deleteGeneration,
+} from "../controllers/GenerationController.js";
 
-const router = Router();
+const router = express.Router();
 
-// All generation routes require login
-router.post('/', isAuthenticated, generateThumbnail);
-router.get('/my', isAuthenticated, getMyGenerations);
-router.delete('/:id', isAuthenticated, deleteGeneration);
+// POST /api/generate  — generate & save a new thumbnail
+router.post("/", generateThumbnail);
+
+// GET /api/generate/my  — get all thumbnails for the logged-in user
+router.get("/my", getMyGenerations);
+
+// DELETE /api/generate/:id  — delete a thumbnail by ID
+router.delete("/:id", deleteGeneration);
 
 export default router;

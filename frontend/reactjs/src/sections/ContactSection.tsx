@@ -1,9 +1,43 @@
 'use client'
+import { useState } from "react";
 import SectionTitle from "../components/SectionTitle";
-import { ArrowRightIcon, MailIcon, UserIcon, Send, MessageSquare } from "lucide-react";
+import { MailIcon, UserIcon, Send, MessageSquare, CheckCircle, AlertCircle } from "lucide-react";
 import { motion } from "motion/react";
 
 export default function ContactSection() {
+    const [form, setForm] = useState({ name: '', email: '', message: '' });
+    const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [feedback, setFeedback] = useState('');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+            setStatus('error');
+            setFeedback('Please fill in all fields.');
+            return;
+        }
+        try {
+            setStatus('sending');
+            const res = await fetch('http://localhost:5000/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Something went wrong');
+            setStatus('success');
+            setFeedback(data.message || 'Message sent!');
+            setForm({ name: '', email: '', message: '' });
+        } catch (err: any) {
+            setStatus('error');
+            setFeedback(err.message || 'Failed to send. Try again.');
+        }
+    };
+
     return (
         <div id="contact" className="relative px-4 md:px-16 lg:px-24 xl:px-32 py-24 overflow-hidden">
             {/* Background glowing elements */}
@@ -38,7 +72,7 @@ export default function ContactSection() {
                             </div>
                             <div className="text-left">
                                 <p className="text-sm text-zinc-400">Email Us</p>
-                                <p className="font-medium text-white/90">hello@thumblify.ai</p>
+                                <p className="font-medium text-white/90">thumblifycommunity@gmail.com</p>
                             </div>
                         </div>
 
@@ -67,7 +101,21 @@ export default function ContactSection() {
                         {/* Subtle Shimmer effect inside card */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/5 via-transparent to-purple-500/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 pointer-events-none" />
                         
-                        <form onSubmit={(e) => e.preventDefault()} className="relative z-10 flex flex-col gap-6">
+                        {/* Feedback banner */}
+                        {status === 'success' && (
+                            <div className="relative z-10 mb-6 flex items-center gap-3 rounded-xl bg-green-500/10 border border-green-500/30 px-4 py-3 text-sm text-green-300">
+                                <CheckCircle className="size-4 shrink-0" />
+                                {feedback}
+                            </div>
+                        )}
+                        {status === 'error' && (
+                            <div className="relative z-10 mb-6 flex items-center gap-3 rounded-xl bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-300">
+                                <AlertCircle className="size-4 shrink-0" />
+                                {feedback}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-6">
                             
                             <div className="grid sm:grid-cols-2 gap-6">
                                 <div className="space-y-2 text-left">
@@ -79,8 +127,11 @@ export default function ContactSection() {
                                         <input 
                                             name="name" 
                                             type="text" 
-                                            placeholder="John Doe" 
-                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05]" 
+                                            placeholder="John Doe"
+                                            value={form.name}
+                                            onChange={handleChange}
+                                            disabled={status === 'sending'}
+                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05] disabled:opacity-50" 
                                         />
                                     </div>
                                 </div>
@@ -94,8 +145,11 @@ export default function ContactSection() {
                                         <input 
                                             name="email" 
                                             type="email" 
-                                            placeholder="john@example.com" 
-                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05]" 
+                                            placeholder="john@example.com"
+                                            value={form.email}
+                                            onChange={handleChange}
+                                            disabled={status === 'sending'}
+                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05] disabled:opacity-50" 
                                         />
                                     </div>
                                 </div>
@@ -106,17 +160,21 @@ export default function ContactSection() {
                                 <textarea 
                                     name="message" 
                                     rows={5} 
-                                    placeholder="Tell us about your channel..." 
-                                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05] resize-none" 
+                                    placeholder="Tell us about your channel..."
+                                    value={form.message}
+                                    onChange={handleChange}
+                                    disabled={status === 'sending'}
+                                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-white placeholder:text-zinc-600 outline-none focus:border-pink-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-pink-500/10 transition-all hover:bg-white/[0.05] resize-none disabled:opacity-50" 
                                 />
                             </div>
 
                             <button
                                 type="submit"
-                                className="relative mt-4 w-full sm:w-auto self-end overflow-hidden rounded-xl bg-pink-600 px-8 py-3.5 text-white font-medium transition-all hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-pink-500 flex items-center justify-center border border-pink-500/50 group/submit"
+                                disabled={status === 'sending'}
+                                className="relative mt-4 w-full sm:w-auto self-end overflow-hidden rounded-xl bg-pink-600 px-8 py-3.5 text-white font-medium transition-all hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-pink-500 flex items-center justify-center border border-pink-500/50 group/submit disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
-                                    Send Message
+                                    {status === 'sending' ? 'Sending…' : 'Send Message'}
                                     <Send className="size-4 transition-transform duration-300 group-hover/submit:translate-x-1 group-hover/submit:-translate-y-1" />
                                 </span>
                             </button>
