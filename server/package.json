@@ -35,5 +35,8 @@
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2"
+  },
+  "optionalDependencies": {
+    "@img/sharp-linux-x64": "^0.34.0"
   }
 }
