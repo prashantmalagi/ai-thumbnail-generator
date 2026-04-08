@@ -23,11 +23,25 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json({ limit: '50mb' }));
 app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:5000',
-        process.env.FRONTEND_URL || '',   // e.g. https://thumblify.vercel.app
-    ].filter(Boolean),
+    origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, curl, etc.)
+        if (!origin) return callback(null, true);
+
+        const allowed = [
+            'http://localhost:5173',
+            'http://localhost:5000',
+            process.env.FRONTEND_URL,               // exact Vercel production URL
+        ].filter(Boolean);
+
+        // Also allow any Vercel preview URL for this project
+        const isVercelPreview = /^https:\/\/ai-thumbnail-generator.*\.vercel\.app$/.test(origin);
+
+        if (allowed.includes(origin) || isVercelPreview) {
+            callback(null, true);
+        } else {
+            callback(new Error(`CORS: origin ${origin} not allowed`));
+        }
+    },
     credentials: true
 }))
 
