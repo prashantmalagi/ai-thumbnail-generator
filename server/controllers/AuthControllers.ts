@@ -65,15 +65,18 @@ export const loginUser = async (req: Request, res: Response) => {
       });
     }
 
-    // 4. Login success
-// 4. Save session
+    // 4. Save session explicitly before responding (ensures Set-Cookie header is sent)
     req.session.iLoggedIn = true;
     req.session.userId = user._id.toString();
 
-    // 5. Login success
-    res.status(200).json({
-      message: 'Login successful',
-      user
+    req.session.save((err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Session save error' });
+      }
+      res.status(200).json({
+        message: 'Login successful',
+        user
+      });
     });
 
   } catch (error) {
