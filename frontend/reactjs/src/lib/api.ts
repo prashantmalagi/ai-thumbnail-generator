@@ -46,6 +46,9 @@ export const authApi = {
 
     logout: () =>
         request<AuthResponse>('/auth/logout', { method: 'POST' }),
+
+    me: () =>
+        request<AuthResponse>('/auth/me'),
 };
 
 // ─── Generation ──────────────────────────────────────────────────────────────

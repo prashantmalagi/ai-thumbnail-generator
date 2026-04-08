@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { authApi } from '../lib/api';
 import type { AuthResponse } from '../lib/api';
@@ -12,6 +12,7 @@ interface User {
 interface AuthContextType {
     user: User | null;
     isLoggedIn: boolean;
+    loading: boolean;
     login: (email: string, password: string) => Promise<AuthResponse>;
     register: (name: string, email: string, password: string) => Promise<AuthResponse>;
     logout: () => Promise<void>;
@@ -21,17 +22,25 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true); // true until session check done
 
+    // On mount: restore session from cookie
+    useEffect(() => {
+        authApi.me()
+            .then(data => { if (data.user) setUser(data.user as User); })
+            .catch(() => { /* not logged in — that's fine */ })
+            .finally(() => setLoading(false));
+    }, []);
 
     const login = async (email: string, password: string) => {
         const data = await authApi.login(email, password);
-        if (data.user) setUser(data.user);
+        if (data.user) setUser(data.user as User);
         return data;
     };
 
     const register = async (name: string, email: string, password: string) => {
         const data = await authApi.register(name, email, password);
-        if (data.user) setUser(data.user);
+        if (data.user) setUser(data.user as User);
         return data;
     };
 
@@ -45,6 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             value={{
                 user,
                 isLoggedIn: !!user,
+                loading,
                 login,
                 register,
                 logout,

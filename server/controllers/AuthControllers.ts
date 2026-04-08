@@ -94,3 +94,20 @@ export const logoutUser = (req: Request, res: Response) => {
     res.status(200).json({ message: "Logged out successfully" });
   });
 };
+
+// Controller for Getting Current Session User
+export const getMe = async (req: Request, res: Response) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Not authenticated' });
+    }
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
