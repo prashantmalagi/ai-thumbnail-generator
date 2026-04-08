@@ -48,6 +48,9 @@ app.use(cors({
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// REQUIRED for Render/Heroku/Railway: trust the reverse proxy so secure cookies work
+if (isProd) app.set('trust proxy', 1);
+
 app.use(session({
     secret: process.env.SESSION_SECRET || "secret",
     resave: false,
