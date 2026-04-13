@@ -41,12 +41,9 @@ export default function Navbar() {
 
                 {isLoggedIn ? (
                     <div className="hidden md:flex items-center gap-3">
-                        <div className="flex items-center gap-2 bg-pink-950/60 border border-pink-800/50 rounded-full pl-1 pr-4 py-1">
-                            <span className="flex items-center justify-center size-8 rounded-full bg-pink-600 text-white text-xs font-semibold">
-                                {initials}
-                            </span>
-                            <span className="text-sm text-slate-300 max-w-24 truncate">{user?.name}</span>
-                        </div>
+                        <span className="flex items-center justify-center size-9 rounded-full bg-pink-600 text-white text-sm font-semibold cursor-default select-none">
+                            {initials}
+                        </span>
                         <button
                             onClick={handleLogout}
                             className="flex items-center gap-1.5 px-4 py-2 text-sm text-pink-300 border border-pink-800/60 hover:bg-pink-950/50 active:scale-95 transition-all rounded-full"
