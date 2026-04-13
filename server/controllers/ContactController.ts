@@ -12,12 +12,13 @@ export const sendContactEmail = async (req: Request, res: Response) => {
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
-            secure: false,          // STARTTLS (not SSL)
+            secure: false,
+            family: 4,              // force IPv4 — Render free tier has no IPv6
             auth: {
                 user: process.env.GMAIL_USER,
                 pass: process.env.GMAIL_APP_PASSWORD,
             },
-            connectionTimeout: 10000,   // 10s — fail fast if port is blocked
+            connectionTimeout: 10000,
             greetingTimeout: 10000,
             socketTimeout: 10000,
         });
