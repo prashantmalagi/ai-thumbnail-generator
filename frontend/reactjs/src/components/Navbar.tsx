@@ -26,7 +26,7 @@ export default function Navbar() {
                     <Link to='/' className="hover:text-pink-300 transition">Home</Link>
                     <Link to='/generate' className="hover:text-pink-300 transition">Generations</Link>
                     <Link to='/my-generation' className="hover:text-pink-300 transition">My Generations</Link>
-                    <Link to='/MyContact' className="hover:text-pink-300 transition">My Contact</Link>
+                    <Link to='/contact' className="hover:text-pink-300 transition">Contact</Link>
 
                     
                 </div>
@@ -43,7 +43,7 @@ export default function Navbar() {
                 <Link onClick={() => setIsOpen(false)} to='/'>Home</Link>
                 <Link onClick={() => setIsOpen(false)} to='/generate'>Generations</Link>
                 <Link onClick={() => setIsOpen(false)} to='/my-generation'>My Generations</Link>
-                <Link onClick={() => setIsOpen(false)} to='/MyContact'>My Contact</Link>
+                <Link onClick={() => setIsOpen(false)} to='/contact'>Contact</Link>
                 <Link onClick={() => setIsOpen(false)} to='/login'>Login</Link>
                 <button onClick={() => setIsOpen(false)} className="active:ring-3 active:ring-white aspect-square size-10 p-1 items-center justify-center bg-pink-600 hover:bg-pink-700 transition text-white rounded-md flex">
                     <XIcon />

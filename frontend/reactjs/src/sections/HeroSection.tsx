@@ -36,7 +36,7 @@ const navigate = useNavigate();
                 viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 240, damping: 70, mass: 1 }}
             >
-                AI Thubnail Generator for your{" "}
+                AI Thumbnail Generator for your{" "}
                 <span className="move-gradient px-3 rounded-xl text-nowrap">Videos.</span>
             </motion.h1>
             <motion.p className="text-base text-center text-slate-200 max-w-lg mt-6"
@@ -45,7 +45,7 @@ const navigate = useNavigate();
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, type: "spring", stiffness: 320, damping: 70, mass: 1 }}
             >
-                Stop wasting hours on designing thumbnails.Generate eye-catching thumbnails in seconds with our AI-powered generator.
+                Stop wasting hours on designing thumbnails. Generate eye-catching thumbnails in seconds with our AI-powered generator.
             </motion.p>
             <motion.div className="flex items-center gap-4 mt-8"
                 initial={{ y: 50, opacity: 0 }}
