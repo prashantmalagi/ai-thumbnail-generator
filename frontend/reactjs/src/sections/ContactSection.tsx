@@ -23,11 +23,18 @@ export default function ContactSection() {
         try {
             setStatus('sending');
             const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
+
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 20000); // 20s timeout
+
             const res = await fetch(`${apiBase}/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form),
+                signal: controller.signal,
             });
+            clearTimeout(timeout);
+
             const data = await res.json();
             if (!res.ok) throw new Error(data.message || 'Something went wrong');
             setStatus('success');
@@ -35,7 +42,11 @@ export default function ContactSection() {
             setForm({ name: '', email: '', message: '' });
         } catch (err: any) {
             setStatus('error');
-            setFeedback(err.message || 'Failed to send. Try again.');
+            if (err.name === 'AbortError') {
+                setFeedback('The server is waking up — please wait a moment and try again.');
+            } else {
+                setFeedback(err.message || 'Failed to send. Try again.');
+            }
         }
     };
 
