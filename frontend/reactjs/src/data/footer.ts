@@ -4,27 +4,25 @@ export const footerData: IFooter[] = [
     {
         title: "Product",
         links: [
-            { name: "Home", href: "#" },
-            { name: "Support", href: "#support" },
-            { name: "Pricing", href: "#pricing" },
-            { name: "Affiliate", href: "#affiliate" },
+            { name: "Home", href: "/" },
+            { name: "Generate", href: "/generate" },
+            { name: "My Generations", href: "/my-generation" },
+            { name: "Pricing", href: "/#pricing" },
         ]
     },
     {
-        title: "Resources",
+        title: "Support",
         links: [
-            { name: "Company", href: "#company" },
-            { name: "Blogs", href: "#blogs" },
-            { name: "Community", href: "#community" },
-            { name: "Careers", href: "#careers" },
-            { name: "About", href: "#about" },
+            { name: "Contact Us", href: "/contact" },
+            { name: "Features", href: "/#features" },
+            { name: "Testimonials", href: "/#testimonials" },
         ]
     },
     {
         title: "Legal",
         links: [
-            { name: "Privacy", href: "#privacy" },
-            { name: "Terms", href: "#terms" },
+            { name: "Privacy Policy", href: "#" },
+            { name: "Terms of Service", href: "#" },
         ]
     }
 ];
