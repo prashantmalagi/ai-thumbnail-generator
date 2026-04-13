@@ -56,6 +56,6 @@ export const sendContactEmail = async (req: Request, res: Response) => {
 
     } catch (error: any) {
         console.error('Contact email error:', error);
-        return res.status(500).json({ message: 'Failed to send message. Please try again.' });
+        return res.status(500).json({ message: error?.message || 'Failed to send message. Please try again.' });
     }
 };
