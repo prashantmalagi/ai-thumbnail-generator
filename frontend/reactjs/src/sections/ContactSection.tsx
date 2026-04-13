@@ -25,7 +25,7 @@ export default function ContactSection() {
             const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
 
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 20000); // 20s timeout
+            const timeout = setTimeout(() => controller.abort(), 35000); // 35s timeout
 
             const res = await fetch(`${apiBase}/api/contact`, {
                 method: 'POST',
