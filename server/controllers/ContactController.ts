@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 export const sendContactEmail = async (req: Request, res: Response) => {
     try {
@@ -9,24 +9,12 @@ export const sendContactEmail = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'All fields are required.' });
         }
 
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            family: 4,              // force IPv4 — Render free tier has no IPv6
-            auth: {
-                user: process.env.GMAIL_USER,
-                pass: process.env.GMAIL_APP_PASSWORD,
-            },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 10000,
-        });
+        const resend = new Resend(process.env.RESEND_API_KEY);
 
-        await transporter.sendMail({
-            from: `"Thumblify Contact" <${process.env.GMAIL_USER}>`,
-            to: process.env.GMAIL_USER,          // email sent to yourself
-            replyTo: email,                       // reply goes to the sender
+        await resend.emails.send({
+            from: 'Thumblify Contact <onboarding@resend.dev>',
+            to: process.env.GMAIL_USER as string,
+            replyTo: email,
             subject: `📬 New message from ${name} — Thumblify`,
             html: `
                 <div style="font-family:sans-serif;max-width:600px;margin:auto;background:#0f0e17;padding:32px;border-radius:16px;color:#e8e8f0;border:1px solid #2a2845">
