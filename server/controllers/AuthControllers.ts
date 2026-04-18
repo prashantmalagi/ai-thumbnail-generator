@@ -28,10 +28,18 @@ export const registerUser = async (req: Request, res: Response) => {
             password: hashedPassword
         });
 
-        // 5. Send response
-        res.status(201).json({
-            message: 'User registered successfully',
-            user: newUser
+        // 5. Create session so the user is immediately logged in after registration
+        req.session.iLoggedIn = true;
+        req.session.userId = newUser._id.toString();
+
+        req.session.save((err) => {
+            if (err) {
+                return res.status(500).json({ message: 'Session save error' });
+            }
+            res.status(201).json({
+                message: 'User registered successfully',
+                user: newUser
+            });
         });
 
     } catch (error) {
